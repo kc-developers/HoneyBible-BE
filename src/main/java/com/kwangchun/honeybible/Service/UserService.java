@@ -1,12 +1,11 @@
 package com.kwangchun.honeybible.Service;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import com.kwangchun.honeybible.Repository.UserRepository;
-
-import java.util.List;
-import java.util.Map;
+import com.kwangchun.honeybible.dto.User;
 
 @Service
 @RequiredArgsConstructor
@@ -16,5 +15,10 @@ public class UserService {
 
     public String getUserList() {
         return userRepository.findAll();
+    }
+    
+    public String createUser(User user) {
+
+    	return userRepository.createUser(user);
     }
 }
