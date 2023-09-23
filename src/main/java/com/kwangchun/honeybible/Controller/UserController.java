@@ -34,11 +34,11 @@ public class UserController {
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user) {
+    public String createUser(@RequestBody User user) {
     	logger.info("[POST] create user");
     	logger.info("new user info : ", user.toString());
 
-    	userService.createUser(user);
+    	return userService.createUser(user);
     }
     
     @PutMapping("/{memberNum}")
