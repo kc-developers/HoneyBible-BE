@@ -17,7 +17,7 @@ public class UserRepository {
 
     private final Gson gson;
 
-    public String findAll() {
+    public String selectAll() {
     	
       List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT * FROM TB_MEMBER");
 

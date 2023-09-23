@@ -21,13 +21,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/all")
-    public String getUserList() {
-        logger.info("[GET] all user list");
+    public String getAllUsers() {
+        logger.info("[GET] all users");
 
-        String userList = userService.getUserList();
-        logger.info("all user list : ", userList);
+        String allUsers = userService.getAllUsers();
+        logger.info("all users : ", allUsers);
 
-        return userList;
+        return allUsers;
     }
 
     @PostMapping

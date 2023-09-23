@@ -13,8 +13,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public String getUserList() {
-        return userRepository.findAll();
+    public String getAllUsers() {
+        return userRepository.selectAll();
     }
     
     public String createUser(User user) {
