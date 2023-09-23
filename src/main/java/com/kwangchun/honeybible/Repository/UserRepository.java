@@ -30,4 +30,17 @@ public class UserRepository {
     	jdbcTemplate.update(sql, user.getMember_num(), user.getName(), user.getTtolae(), user.getBirth_date(), user.getInsert_dt(), user.getUpdate_dt(), user.getMember_auth(), user.getStatus());
     	return "";
     }
+    
+    public String alterUserInfo(String memberNum, String key, String value) {
+    	
+        String sql = "UPDATE TB_MEMBER SET " + key + " = ? WHERE MEMBER_NUM = ?";
+
+        try {
+            jdbcTemplate.update(sql, value, memberNum);
+            return "User info updated successfully.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to update user info.";
+        }
+    }
 }

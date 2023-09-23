@@ -21,4 +21,9 @@ public class UserService {
 
     	return userRepository.createUser(user);
     }
+   
+    public String alterUserInfo(String memberNum, String key, String value) {
+    	
+    	return userRepository.alterUserInfo(memberNum, key, value);
+    }
 }
