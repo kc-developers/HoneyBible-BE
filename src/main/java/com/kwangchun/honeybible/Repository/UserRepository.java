@@ -1,9 +1,11 @@
 package com.kwangchun.honeybible.Repository;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
@@ -42,7 +44,23 @@ public class UserRepository {
 
         try {
             jdbcTemplate.update(sql, value, memberNum);
-            return "User info updated successfully.";
+            return "User info updated successfully or nothing change";
+        } catch (Exception e) {
+        	return e.getMessage();
+        }
+    }
+
+    public String deleteUser(String memberNum) {
+        String sql = "DELETE FROM TB_MEMBER WHERE MEMBER_NUM = ?";
+
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, memberNum);
+
+            if (rowsAffected > 0) {
+                return "User deleted successfully.";
+            } else {
+                return "User not found or deletion failed.";
+            }
         } catch (Exception e) {
         	return e.getMessage();
         }
