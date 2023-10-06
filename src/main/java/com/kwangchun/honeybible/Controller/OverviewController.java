@@ -22,7 +22,7 @@ public class OverviewController {
         logger.info("[GET] all overview");
 
         String overviews = overviewService.getOverviews();
-        logger.info("- all overview : ", overviews);
+        logger.info("- all overview : {}", overviews);
 
         return overviews;
     }
@@ -32,7 +32,7 @@ public class OverviewController {
         logger.info("[GET] overview");
 
         String overview = overviewService.getOverview(viewNum);
-        logger.info("- overview info : ", overview);
+        logger.info("- overview info : {}", overview);
 
         return overview;
     }

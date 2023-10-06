@@ -24,7 +24,7 @@ public class CalendarController {
         logger.info("[GET] all calendars");
 
         String calendars = calendarService.getCalendars();
-        logger.info("- all calendars : ", calendars);
+        logger.info("- all calendars : {}", calendars);
 
         return calendars;
     }
@@ -34,7 +34,7 @@ public class CalendarController {
         logger.info("[GET] calendar");
 
         String calendar = calendarService.getCalendar(dateKey);
-        logger.info("- calendar info : ", calendar);
+        logger.info("- calendar info : {}", calendar);
 
         return calendar;
     }
