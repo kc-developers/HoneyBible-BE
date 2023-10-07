@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
@@ -50,6 +52,16 @@ public class UserRepository {
         }
     }
 
+    public void updateUserUpdateDt(String memberNum) {
+    	LocalDateTime now = LocalDateTime.now();
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    	String nowString = now.format(formatter);
+
+    	String sql = "UPDATE TB_MEMBER SET UPDATE_DT = TO_DATE(?,'yyyymmddhh24miss') WHERE MEMBER_NUM = ?";
+	
+        jdbcTemplate.update(sql, nowString, memberNum);
+	}
+    
     public String deleteUser(String memberNum) {
         String sql = "DELETE FROM TB_MEMBER WHERE MEMBER_NUM = ?";
 

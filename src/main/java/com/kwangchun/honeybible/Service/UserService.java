@@ -37,11 +37,7 @@ public class UserService {
     }
    
     public String alterUserInfo(String memberNum, String key, String value) {
-    	LocalDate now = LocalDate.now();
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    	String formatedNow = now.format(formatter);
-    	
-    	userRepository.alterUserInfo(memberNum, "UPDATE_DT", formatedNow);
+    	userRepository.updateUserUpdateDt(memberNum);
 
     	return userRepository.alterUserInfo(memberNum, key, value);
     }
