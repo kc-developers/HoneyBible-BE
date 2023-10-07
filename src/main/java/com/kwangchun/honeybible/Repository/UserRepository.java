@@ -32,8 +32,11 @@ public class UserRepository {
         String sql = "INSERT INTO TB_MEMBER(MEMBER_NUM, NAME, TTOLAE, BIRTH_DATE, INSERT_DT, UPDATE_DT, MEMBER_AUTH, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
-        	jdbcTemplate.update(sql, user.getMember_num(), user.getName(), user.getTtolae(), user.getBirth_date(), user.getInsert_dt(), user.getUpdate_dt(), user.getMember_auth(), user.getStatus());
-        	return "New User created successfully.";
+        	jdbcTemplate.update(sql, user.getMemberNum(), user.getName(), user.getTtolae(), user.getBirthDate(), user.getInsertDt(), user.getUpdateDt(), user.getMemberAuth(), user.getStatus());
+
+        	Map<String, String> response = new HashMap<>();
+        	response.put("message", "New User created successfully.");
+        	return gson.toJson(response);
         } catch (Exception e) {
         	return e.getMessage();
 		}
@@ -41,12 +44,14 @@ public class UserRepository {
     }
     
     public String alterUserInfo(String memberNum, String key, String value) {
-    	
         String sql = "UPDATE TB_MEMBER SET " + key + " = ? WHERE MEMBER_NUM = ?";
 
         try {
             jdbcTemplate.update(sql, value, memberNum);
-            return "User info updated successfully or nothing change";
+
+            Map<String, String> response = new HashMap<>();
+        	response.put("message", "User info updated successfully or nothing change");
+        	return gson.toJson(response);
         } catch (Exception e) {
         	return e.getMessage();
         }
@@ -68,10 +73,14 @@ public class UserRepository {
         try {
             int rowsAffected = jdbcTemplate.update(sql, memberNum);
 
+            Map<String, String> response = new HashMap<>();
+
             if (rowsAffected > 0) {
-                return "User deleted successfully.";
+            	response.put("message", "User deleted successfully.");
+            	return gson.toJson(response);
             } else {
-                return "User not found or deletion failed.";
+            	response.put("message", "User not found or deletion failed.");
+            	return gson.toJson(response);
             }
         } catch (Exception e) {
         	return e.getMessage();

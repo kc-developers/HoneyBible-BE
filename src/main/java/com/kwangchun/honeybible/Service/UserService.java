@@ -7,20 +7,6 @@ import org.springframework.stereotype.Service;
 import com.kwangchun.honeybible.Repository.UserRepository;
 import com.kwangchun.honeybible.dto.User;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import java.util.Date;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import java.util.Date;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {

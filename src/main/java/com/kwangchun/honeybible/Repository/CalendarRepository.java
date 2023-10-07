@@ -5,11 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
-import com.kwangchun.honeybible.dto.User;
 
 @Repository
 @RequiredArgsConstructor
