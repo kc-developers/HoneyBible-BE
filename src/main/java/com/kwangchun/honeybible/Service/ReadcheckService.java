@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,10 @@ public class ReadcheckService {
             read = false;
         }
 
-        return gson.toJson(read);
+        Map<String, Boolean> resultMap = new HashMap<>();
+        resultMap.put("message", read);
+
+        return gson.toJson(resultMap);
     }
 
     public String getDateReadBefore(String memberNum, String dateKey) {
@@ -69,6 +73,10 @@ public class ReadcheckService {
                 }
             }
         }
-        return gson.toJson(numOfBefore);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("message", numOfBefore);
+
+        return gson.toJson(resultMap);
     }
 }
