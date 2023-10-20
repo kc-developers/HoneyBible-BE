@@ -32,9 +32,38 @@ public class ReadcheckService {
 
         return gson.toJson(read);
     }
-    
-    public String getReadcheck(String dateKey) {
-    	return readcheckRepository.selectOne(dateKey);
+
+    public String getDateReadBefore(String memberNum, String dateKey) {
+        List<Map<String, Object>> readcheck = readcheckRepository.selectAll();
+
+        List<String> dateKeys = new ArrayList<>();
+        for (Map<String, Object> rc : readcheck) {
+            if (rc.get("MEMBER_NUM").toString().equals(memberNum))
+                dateKeys.add(rc.get("DATE_KEY").toString());
+        }
+
+        int numOfBefore = 0;
+
+        int year = Integer.parseInt(dateKey.substring(0, 4));
+        int month = Integer.parseInt(dateKey.substring(4, 6));
+        int day = Integer.parseInt(dateKey.substring(6, 8));
+
+        for (String key : dateKeys) {
+            int year2 = Integer.parseInt(key.substring(0, 4));
+            int month2 = Integer.parseInt(key.substring(4, 6));
+            int day2 = Integer.parseInt(key.substring(6, 8));
+            if (year2 < year) {
+                numOfBefore++;
+            } else if (year2 == year) {
+                if (month2 < month) {
+                    numOfBefore++;
+                } else if (month2 == month) {
+                    if (day2 < day) {
+                        numOfBefore++;
+                    }
+                }
+            }
+        }
+        return gson.toJson(numOfBefore);
     }
-    
 }
