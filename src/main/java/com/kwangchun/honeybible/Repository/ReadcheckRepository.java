@@ -19,7 +19,7 @@ public class ReadcheckRepository {
     }
     
     public Map<String, Object> selectOne(String dateKey, String memberNum) {
-        String query = "SELECT * FROM TB_READCHECK WHERE READ_NUM = ? AND MEMBER_NUM = ?";
+        String query = "SELECT * FROM TB_READCHECK WHERE DATE_KEY = ? AND MEMBER_NUM = ?";
         
         return jdbcTemplate.queryForMap(query, dateKey, memberNum);
     }

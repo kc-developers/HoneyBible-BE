@@ -3,6 +3,8 @@ package com.kwangchun.honeybible.Service;
 import com.google.gson.Gson;
 import com.kwangchun.honeybible.Repository.ReadcheckRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class ReadcheckService {
+
+    private final Logger logger = LoggerFactory.getLogger(ReadcheckService.class);
 
     private final ReadcheckRepository readcheckRepository;
 
@@ -27,6 +31,7 @@ public class ReadcheckService {
         try {
             readcheckRepository.selectOne(dateKey, memberNum);
         } catch (EmptyResultDataAccessException e) {
+            logger.info("The datekey and memberNum have no readcheck data.");
             read = false;
         }
 
