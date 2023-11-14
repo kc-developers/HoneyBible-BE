@@ -2,6 +2,8 @@ package com.kwangchun.honeybible.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class JwtAuthInterceptor implements HandlerInterceptor {
 
+    private final Logger logger = LoggerFactory.getLogger(JwtAuthInterceptor.class);
     private final JwtProvider jwtProvider;
 
     public JwtAuthInterceptor(JwtProvider jwtProvider) {
@@ -24,6 +27,7 @@ public class JwtAuthInterceptor implements HandlerInterceptor {
         if (token != null && jwtProvider.validateToken(token)) {
             return true;
         } else {
+            logger.warn("Invalid JWT token : {}", token);
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid JWT token");
         }
 

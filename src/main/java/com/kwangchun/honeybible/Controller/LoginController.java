@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    LoginService loginService;
+    private final LoginService loginService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
