@@ -36,16 +36,18 @@ public class UserController {
         return allUsers;
     }
 
-    @GetMapping("/{ttolae}/{name}")
-    public String getUser(@PathVariable String ttolae, @PathVariable String name) {
-        logger.info("[GET] user");
+	
+	  @GetMapping("/{ttolae}/{name}/{phoneNumber}") 
+	  public String getUser(@PathVariable String ttolae, @PathVariable String name, @PathVariable
+	  String phoneNumber) { logger.info("[GET] user");
+	  
+	  String user = userService.getUser(ttolae, name, phoneNumber);
+	  logger.info("- user info : {}", user);
+	  
+	  return user; }
+	 
 
-        String user = userService.getUser(ttolae, name);
-        logger.info("- user info : {}", user);
-
-        return user;
-    }
-
+    @Operation(summary = "유저 데이터 생성", description = "회원가입 후 메세지를 반환한다.")
     @PostMapping
     public String createUser(@RequestBody User user) {
     	logger.info("[POST] create user");
@@ -55,19 +57,28 @@ public class UserController {
     }
 
     @Operation(summary = "유저 데이터 수정", description = "수정 전 이름&또래, 수정 후 이름&또래를 반환한다.")
-    @PutMapping("/{ttolae}/{name}/{key}/{value}")
-    public String alterUser(@PathVariable String ttolae, @PathVariable String name, @PathVariable String key, @PathVariable String value) {
+    @PutMapping("/{ttolae}/{name}/{key}/{phoneNumber}/{value}")
+    public String alterUser(@PathVariable String ttolae, @PathVariable String name, @PathVariable String phoneNumber, @PathVariable String key, @PathVariable String value) {
         logger.info("[Put] alter user info");
-        logger.info("- ttolae : {}, name : {}, key : {}, value : {}", ttolae, name, key, value);
+        logger.info("- ttolae : {}, name : {}, phoneNumber : {}, key : {}, value : {}", ttolae, name, phoneNumber, key, value);
 
-        return userService.alterUserInfo(ttolae, name, key, value);
+        return userService.alterUserInfo(ttolae, name, phoneNumber, key, value);
     }
 
     @Operation(summary = "유저 데이터 삭제", description = "삭제한 유저의 정보를 반환한다.")
-    @DeleteMapping("/{ttolae}/{name}")
-    public String deleteUser(@PathVariable String ttolae, @PathVariable String name) {
-        logger.info("[Delete] user : {} {}", ttolae, name);
+    @DeleteMapping("/{ttolae}/{name}/{phoneNumber}")
+    public String deleteUser(@PathVariable String ttolae, @PathVariable String name, @PathVariable String phoneNumber) {
+        logger.info("[Delete] user : {} {} {}", ttolae, name, phoneNumber);
         
-        return userService.deleteUser(ttolae, name);
+        return userService.deleteUser(ttolae, name, phoneNumber);
     }
+    
+    @Operation(summary = "로그인", description = "로그인 정보가 맞을 경우  member_num(예시)를 반환한다.")
+    @GetMapping("/login/{ttolae}/{name}/{phoneNumber}")
+    public String loginUser(@PathVariable String ttolae, @PathVariable String name, @PathVariable String phoneNumber) {
+        logger.info("[Login] user : {} {} {}", ttolae, name, phoneNumber);
+        
+        return userService.loginUser(ttolae, name, phoneNumber);
+    }
+    
 }

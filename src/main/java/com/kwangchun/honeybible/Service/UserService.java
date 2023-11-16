@@ -24,12 +24,12 @@ public class UserService {
         return gson.toJson(userRepository.selectAll());
     }
 
-    public String getUser(String ttolae, String name) {
-    	return gson.toJson(userRepository.selectOne(name, ttolae));
+    public String getUser(String ttolae, String name, String phoneNumber) {
+    	return gson.toJson(userRepository.selectOne(name, ttolae, phoneNumber));
     }
 
-    public String getMemberNum(String ttolae, String name) {
-    	Map<String, Object> user = userRepository.selectOne(name, ttolae);
+    public String getMemberNum(String ttolae, String name, String phoneNumber) {
+    	Map<String, Object> user = userRepository.selectOne(name, ttolae, phoneNumber);
     	return user.get("MEMBER_NUM").toString();
     }
     
@@ -48,10 +48,10 @@ public class UserService {
     	return gson.toJson(userRepository.createUser(user));
     }
    
-    public String alterUserInfo(String ttolae, String name, String key, String value) {
-        String memberNum = getMemberNum(ttolae, name);
+    public String alterUserInfo(String ttolae, String name, String phoneNumber, String key, String value) {
+        String memberNum = getMemberNum(ttolae, name, phoneNumber);
 
-        Map<String, Object> user = userRepository.selectOne(name, ttolae);
+        Map<String, Object> user = userRepository.selectOne(name, ttolae, phoneNumber);
 
         Map<String, String> result = new HashMap<>();
         result.put("oldName", user.get("NAME").toString());
@@ -64,19 +64,27 @@ public class UserService {
         } else if (key.equals("name")) {
             name = value;
         }
-        user = userRepository.selectOne(name, ttolae);
+        user = userRepository.selectOne(name, ttolae, phoneNumber);
         result.put("newName", user.get("NAME").toString());
         result.put("newTtolae", user.get("TTOLAE").toString());
 
     	return gson.toJson(result);
     }
     
-    public String deleteUser(String ttolae, String name) {
-        Map<String, Object> user = userRepository.selectOne(name, ttolae);
+    public String deleteUser(String ttolae, String name, String phoneNumber) {
+        Map<String, Object> user = userRepository.selectOne(name, ttolae, phoneNumber);
 
-        String memberNum = getMemberNum(ttolae, name);
+        String memberNum = getMemberNum(ttolae, name, phoneNumber);
         userRepository.deleteUser(memberNum);
     	
     	return gson.toJson(user);
+    }
+    
+    public String loginUser(String ttolae, String name, String phoneNumber) {
+        //Map<String, Object> user = userRepository.selectOne(name, ttolae, phoneNumber);
+
+        String memberNum = getMemberNum(ttolae, name, phoneNumber);
+    	
+    	return memberNum;
     }
 }

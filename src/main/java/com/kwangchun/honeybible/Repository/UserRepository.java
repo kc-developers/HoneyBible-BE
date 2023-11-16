@@ -20,26 +20,32 @@ public class UserRepository {
 
     public List<Map<String, Object>> selectAll() {
     	
-      List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT * FROM TB_MEMBER");
+      List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT \r\n"
+      		+ "tm.MEMBER_NUM\r\n"
+      		+ ",tm.NAME\r\n"
+      		+ ",tm.TTOLAE\r\n"
+      		+ ",(SELECT count(*) FROM TB_READCHECK tr WHERE tr.MEMBER_NUM = tm.MEMBER_NUM) AS count\r\n"
+      		+ ",(SELECT LISTAGG(DATE_KEY,',') FROM TB_READCHECK tr WHERE tr.MEMBER_NUM = tm.MEMBER_NUM) AS alldate\r\n"
+      		+ "FROM TB_MEMBER tm");
 
       return results;
     }
 
-    public Map<String, Object> selectOne(String name, String ttolae) {
-        String sql = "SELECT * FROM TB_MEMBER WHERE NAME = ? AND TTOLAE = ?";
-        Map<String, Object> result = jdbcTemplate.queryForMap(sql, name, ttolae);
+    public Map<String, Object> selectOne(String name, String ttolae, String phoneNumber) {
+        String sql = "SELECT * FROM TB_MEMBER WHERE NAME = ? AND TTOLAE = ? AND SUBSTR(PHONE_NUMBER,-4) = ?";
+        Map<String, Object> result = jdbcTemplate.queryForMap(sql, name, ttolae, phoneNumber);
 
         if (result != null && !result.isEmpty()) {
             return result;
         } else {
-            throw new RuntimeException("No user found with name : " + name + " and ttolae : " + ttolae);
+            throw new RuntimeException("No user found with name : " + name + " and ttolae : " + ttolae + " and PHONE_NUMBER : " + phoneNumber);
         }
     }
     
     public Map<String, String> createUser(User user) {
-        String sql = "INSERT INTO TB_MEMBER(MEMBER_NUM, NAME, TTOLAE, BIRTH_DATE, INSERT_DT, UPDATE_DT, MEMBER_AUTH, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO TB_MEMBER(MEMBER_NUM, NAME, TTOLAE, PHONE_NUMBER, BIRTH_DATE, INSERT_DT, UPDATE_DT, MEMBER_AUTH, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(sql, user.getMemberNum(), user.getName(), user.getTtolae(), user.getBirthDate(), user.getInsertDt(), user.getUpdateDt(), user.getMemberAuth(), user.getStatus());
+        jdbcTemplate.update(sql, user.getMemberNum(), user.getName(), user.getTtolae(), user.getPhoneNumber(), user.getBirthDate(), user.getInsertDt(), user.getUpdateDt(), user.getMemberAuth(), user.getStatus());
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "New User created successfully.");
